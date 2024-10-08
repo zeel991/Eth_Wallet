@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {ethers } from 'ethers'
+import axios from 'axios';
 import './App.css'
 
 
@@ -36,6 +37,23 @@ const create_Wallet_from_Seed =()=>{
     fetchBalance(walletWithId);
 
 };
+
+const fetchBalance = async( wallet) => {
+   if(wallet){
+    const response = await axios.post(import.meta.env.VITE_ALCHMEY_RPC_URL,
+      {"jsonrpc":"2.0",
+        "id": 1,
+        "method": "eth_getBalance",
+        "params": [wallet.address,"latest"]
+      },
+      {
+        headers : {
+          "Content-type": "application/json",
+        }
+      }
+    )
+   }
+}
 }
 function App() {
   const [count, setCount] = useState(0)
